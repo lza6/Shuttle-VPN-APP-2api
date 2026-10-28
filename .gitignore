@@ -1,0 +1,12 @@
+# runtime products — never commit credentials
+output/
+*.ovpn
+creds/
+cfg/
+logs/
+logs2/
+pool_state.json
+nodes_alive.json
+bench_result.json
+__pycache__/
+*.pyc

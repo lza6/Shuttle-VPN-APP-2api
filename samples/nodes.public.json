@@ -1,0 +1,1008 @@
+[
+ {
+  "host": "172.99.190.188",
+  "country": "GB",
+  "name": "London#9",
+  "source": "servers",
+  "load": 51,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "172.99.190.68",
+  "country": "GB",
+  "name": "London#13",
+  "source": "servers",
+  "load": 53,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "149.7.16.252",
+  "country": "GB",
+  "name": "London#7",
+  "source": "servers",
+  "load": 54,
+  "transports": [
+   "tcp"
+  ],
+  "handshake": true
+ },
+ {
+  "host": "172.99.190.122",
+  "country": "GB",
+  "name": "London#11",
+  "source": "servers",
+  "load": 62,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "172.99.190.130",
+  "country": "GB",
+  "name": "London#2",
+  "source": "servers",
+  "load": 68,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "38.121.43.56",
+  "country": "US",
+  "name": "Atlanta#3",
+  "source": "servers",
+  "load": 18,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "167.88.63.125",
+  "country": "US",
+  "name": "Atlanta#4",
+  "source": "servers",
+  "load": 34,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "38.128.66.68",
+  "country": "US",
+  "name": "Chicago#1",
+  "source": "servers",
+  "load": 14,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "162.251.61.131",
+  "country": "US",
+  "name": "Chicago#2",
+  "source": "servers",
+  "load": 25,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "23.134.94.239",
+  "country": "US",
+  "name": "Dallas#1",
+  "source": "servers",
+  "load": 11,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "139.64.165.92",
+  "country": "US",
+  "name": "Denver#1",
+  "source": "servers",
+  "load": 23,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "149.34.251.241",
+  "country": "US",
+  "name": "LosAngeles#101",
+  "source": "servers",
+  "load": 1,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "149.34.251.242",
+  "country": "US",
+  "name": "LosAngeles#102",
+  "source": "servers",
+  "load": 21,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "149.34.251.243",
+  "country": "US",
+  "name": "LosAngeles#103",
+  "source": "servers",
+  "load": 21,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "162.251.62.100",
+  "country": "US",
+  "name": "Miami#1",
+  "source": "servers",
+  "load": 56,
+  "transports": [
+   "tcp",
+   "udp"
+  ],
+  "handshake": true
+ },
+ {
+  "host": "38.91.100.44",
+  "country": "US",
+  "name": "NewYork#16",
+  "source": "servers",
+  "load": 46,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "142.202.48.20",
+  "country": "US",
+  "name": "NewYork#1",
+  "source": "servers",
+  "load": 50,
+  "transports": [
+   "tcp",
+   "udp"
+  ],
+  "handshake": true
+ },
+ {
+  "host": "169.197.143.32",
+  "country": "US",
+  "name": "Seattle#2",
+  "source": "servers",
+  "load": 41,
+  "transports": [
+   "tcp"
+  ],
+  "handshake": true
+ },
+ {
+  "host": "150.241.192.134",
+  "country": "DK",
+  "name": "Denmark#6068",
+  "source": "vip_servers",
+  "load": 17,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "150.241.192.227",
+  "country": "DK",
+  "name": "Denmark#6065",
+  "source": "vip_servers",
+  "load": 18,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "150.241.218.14",
+  "country": "NL",
+  "name": "Amsterdam#204",
+  "source": "vip_servers",
+  "load": 23,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.161.55.124",
+  "country": "US",
+  "name": "NewYork#234",
+  "source": "servers",
+  "load": 29,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.161.54.124",
+  "country": "US",
+  "name": "NewYork#257",
+  "source": "servers",
+  "load": 34,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.161.55.127",
+  "country": "US",
+  "name": "NewYork#235",
+  "source": "servers",
+  "load": 35,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.161.55.67",
+  "country": "US",
+  "name": "NewYork#221",
+  "source": "servers",
+  "load": 36,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.161.55.122",
+  "country": "US",
+  "name": "NewYork#238",
+  "source": "servers",
+  "load": 38,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "216.177.133.224",
+  "country": "US",
+  "name": "NewYork#403",
+  "source": "servers",
+  "load": 25,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "209.142.101.225",
+  "country": "US",
+  "name": "NewYork#405",
+  "source": "servers",
+  "load": 26,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "209.142.101.245",
+  "country": "US",
+  "name": "NewYork#402",
+  "source": "servers",
+  "load": 45,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "38.75.136.50",
+  "country": "US",
+  "name": "LosAngeles#5",
+  "source": "servers",
+  "load": 87,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "38.75.136.20",
+  "country": "US",
+  "name": "LosAngeles#2",
+  "source": "servers",
+  "load": 90,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "38.75.136.94",
+  "country": "US",
+  "name": "LosAngeles#4",
+  "source": "servers",
+  "load": 90,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "108.165.196.23",
+  "country": "US",
+  "name": "LA#4",
+  "source": "servers",
+  "load": 89,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.189.222.15",
+  "country": "ES",
+  "name": "Madrid#1",
+  "source": "servers",
+  "load": 19,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "95.85.89.107",
+  "country": "ES",
+  "name": "Madrid#11",
+  "source": "servers",
+  "load": 21,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "95.85.89.125",
+  "country": "ES",
+  "name": "Madrid#10",
+  "source": "servers",
+  "load": 24,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "95.85.89.105",
+  "country": "ES",
+  "name": "Madrid#15",
+  "source": "servers",
+  "load": 55,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "95.85.89.109",
+  "country": "ES",
+  "name": "Madrid#12",
+  "source": "servers",
+  "load": 56,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "51.79.164.2",
+  "country": "SG",
+  "name": "Singapore#18",
+  "source": "servers",
+  "load": 6,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "51.79.146.153",
+  "country": "SG",
+  "name": "Singapore#53",
+  "source": "servers",
+  "load": 7,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "51.79.145.68",
+  "country": "SG",
+  "name": "Singapore#21",
+  "source": "servers",
+  "load": 22,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "51.79.251.91",
+  "country": "SG",
+  "name": "Singapore#59",
+  "source": "servers",
+  "load": 25,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "51.79.164.5",
+  "country": "SG",
+  "name": "Singapore#11",
+  "source": "servers",
+  "load": 30,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.189.204.10",
+  "country": "NL",
+  "name": "Amsterdam#26",
+  "source": "servers",
+  "load": 48,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "31.184.206.153",
+  "country": "NL",
+  "name": "Netherlands#4",
+  "source": "servers",
+  "load": 49,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "31.184.206.160",
+  "country": "NL",
+  "name": "Netherlands#16",
+  "source": "servers",
+  "load": 50,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "31.184.206.181",
+  "country": "NL",
+  "name": "Netherlands#10",
+  "source": "servers",
+  "load": 51,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.181.76.199",
+  "country": "NL",
+  "name": "Amsterdam#35",
+  "source": "servers",
+  "load": 57,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "93.190.142.138",
+  "country": "NL",
+  "name": "Amsterdam#11",
+  "source": "servers",
+  "load": 67,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "62.112.8.52",
+  "country": "NL",
+  "name": "Amsterdam#133",
+  "source": "servers",
+  "load": 69,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "190.2.142.9",
+  "country": "NL",
+  "name": "Amsterdam#117",
+  "source": "servers",
+  "load": 70,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "185.180.222.75",
+  "country": "NL",
+  "name": "Amsterdam#105",
+  "source": "servers",
+  "load": 71,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "194.88.104.103",
+  "country": "NL",
+  "name": "Amsterdam#218",
+  "source": "servers",
+  "load": 72,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "92.38.163.182",
+  "country": "LU",
+  "name": "Luxembourg#21",
+  "source": "servers",
+  "load": 61,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "92.38.163.241",
+  "country": "LU",
+  "name": "Luxembourg#5",
+  "source": "servers",
+  "load": 73,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "92.38.163.128",
+  "country": "LU",
+  "name": "Luxembourg#11",
+  "source": "servers",
+  "load": 73,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "185.105.3.96",
+  "country": "LU",
+  "name": "Luxembourg#7",
+  "source": "servers",
+  "load": 78,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "92.38.163.132",
+  "country": "LU",
+  "name": "Luxembourg#12",
+  "source": "servers",
+  "load": 80,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "83.229.6.26",
+  "country": "IT",
+  "name": "Italy#18",
+  "source": "servers",
+  "load": 33,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "83.229.6.34",
+  "country": "IT",
+  "name": "Italy#16",
+  "source": "servers",
+  "load": 36,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "83.229.6.37",
+  "country": "IT",
+  "name": "Italy#27",
+  "source": "servers",
+  "load": 39,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "83.229.6.28",
+  "country": "IT",
+  "name": "Italy#20",
+  "source": "servers",
+  "load": 42,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "92.223.79.58",
+  "country": "IT",
+  "name": "Milan#7",
+  "source": "servers",
+  "load": 43,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "162.55.44.255",
+  "country": "DE",
+  "name": "Berlin#46",
+  "source": "servers",
+  "load": 0,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "157.90.250.230",
+  "country": "DE",
+  "name": "Berlin#50",
+  "source": "servers",
+  "load": 0,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "195.201.114.94",
+  "country": "DE",
+  "name": "Berlin#1",
+  "source": "servers",
+  "load": 0,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "195.201.114.95",
+  "country": "DE",
+  "name": "Berlin#2",
+  "source": "servers",
+  "load": 0,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "213.239.200.152",
+  "country": "DE",
+  "name": "Frankfurt#402",
+  "source": "servers",
+  "load": 0,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "165.154.229.96",
+  "country": "VN",
+  "name": "VN#2",
+  "source": "vip_servers",
+  "load": 1,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "165.154.229.48",
+  "country": "VN",
+  "name": "VN#1",
+  "source": "vip_servers",
+  "load": 4,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "45.92.39.200",
+  "country": "US",
+  "name": "NewYork#1",
+  "source": "vip_servers",
+  "load": 48,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "38.75.137.131",
+  "country": "US",
+  "name": "LosAngeles#6",
+  "source": "vip_servers",
+  "load": 9,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.188.6.36",
+  "country": "UA",
+  "name": "Kyiv#1",
+  "source": "vip_servers",
+  "load": 3,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "149.7.16.183",
+  "country": "GB",
+  "name": "London#17",
+  "source": "vip_servers",
+  "load": 71,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "193.123.87.23",
+  "country": "AE",
+  "name": "Dubai#1",
+  "source": "vip_servers",
+  "load": 8,
+  "transports": [
+   "tcp",
+   "udp"
+  ],
+  "handshake": true
+ },
+ {
+  "host": "165.154.232.90",
+  "country": "TH",
+  "name": "TH#1",
+  "source": "vip_servers",
+  "load": 5,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "165.154.243.46",
+  "country": "TW",
+  "name": "Taiwan#4",
+  "source": "vip_servers",
+  "load": 2,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "185.243.215.201",
+  "country": "SE",
+  "name": "Stockholm#1",
+  "source": "vip_servers",
+  "load": 11,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "165.154.230.196",
+  "country": "KR",
+  "name": "Korea#2",
+  "source": "vip_servers",
+  "load": 2,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "152.67.194.13",
+  "country": "KR",
+  "name": "Korea#1",
+  "source": "vip_servers",
+  "load": 2,
+  "transports": [
+   "tcp",
+   "udp"
+  ],
+  "handshake": true
+ },
+ {
+  "host": "128.199.129.155",
+  "country": "SG",
+  "name": "SG#1",
+  "source": "vip_servers",
+  "load": 0,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "165.154.236.10",
+  "country": "SG",
+  "name": "Singapore#1",
+  "source": "vip_servers",
+  "load": 1,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.189.201.203",
+  "country": "RU",
+  "name": "Russia#2",
+  "source": "vip_servers",
+  "load": 9,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "92.223.109.73",
+  "country": "RU",
+  "name": "Russia#5",
+  "source": "vip_servers",
+  "load": 14,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "146.185.215.67",
+  "country": "RU",
+  "name": "Russia#4",
+  "source": "vip_servers",
+  "load": 27,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "5.189.223.73",
+  "country": "RU",
+  "name": "Russia#1",
+  "source": "vip_servers",
+  "load": 46,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "213.156.142.8",
+  "country": "RO",
+  "name": "Bucharest#1",
+  "source": "vip_servers",
+  "load": 2,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "51.83.186.195",
+  "country": "PL",
+  "name": "Poland#1",
+  "source": "vip_servers",
+  "load": 4,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "165.154.233.132",
+  "country": "PH",
+  "name": "PH#2",
+  "source": "vip_servers",
+  "load": 1,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "165.154.233.237",
+  "country": "PH",
+  "name": "PH#1",
+  "source": "vip_servers",
+  "load": 1,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "103.14.141.201",
+  "country": "NZ",
+  "name": "Auckland#1",
+  "source": "vip_servers",
+  "load": 16,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "62.112.10.232",
+  "country": "NL",
+  "name": "Amsterdam#95",
+  "source": "vip_servers",
+  "load": 8,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "212.8.243.21",
+  "country": "NL",
+  "name": "Amsterdam#40",
+  "source": "vip_servers",
+  "load": 11,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "172.99.188.181",
+  "country": "NL",
+  "name": "Amsterdam#40",
+  "source": "vip_servers",
+  "load": 27,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "185.202.93.74",
+  "country": "MD",
+  "name": "Straseni#1",
+  "source": "vip_servers",
+  "load": 2,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "153.122.173.209",
+  "country": "JP",
+  "name": "Tokyo#1",
+  "source": "vip_servers",
+  "load": 6,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "146.185.219.25",
+  "country": "IL",
+  "name": "TelAviv#1",
+  "source": "vip_servers",
+  "load": 1,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "122.248.33.22",
+  "country": "ID",
+  "name": "Indonesia#1",
+  "source": "vip_servers",
+  "load": 9,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "165.154.228.63",
+  "country": "ID",
+  "name": "ID#1",
+  "source": "vip_servers",
+  "load": 10,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "43.230.131.178",
+  "country": "ID",
+  "name": "Jakarta#1",
+  "source": "vip_servers",
+  "load": 9,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "142.93.221.178",
+  "country": "IN",
+  "name": "Bengaluru#1",
+  "source": "vip_servers",
+  "load": 4,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "209.58.190.235",
+  "country": "HK",
+  "name": "HK#9",
+  "source": "vip_servers",
+  "load": 6,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "193.108.118.187",
+  "country": "DE",
+  "name": "Frankfurt#56",
+  "source": "vip_servers",
+  "load": 59,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "23.88.114.144",
+  "country": "DE",
+  "name": "Berlin#1",
+  "source": "vip_servers",
+  "load": 4,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "193.108.117.66",
+  "country": "DE",
+  "name": "Frankfurt#55",
+  "source": "vip_servers",
+  "load": 71,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "172.99.189.134",
+  "country": "FR",
+  "name": "pairs#15",
+  "source": "vip_servers",
+  "load": 65,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "109.248.43.157",
+  "country": "CZ",
+  "name": "Czechia#1",
+  "source": "vip_servers",
+  "load": 11,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "109.248.43.215",
+  "country": "CZ",
+  "name": "Czechia#2",
+  "source": "vip_servers",
+  "load": 23,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "138.186.141.6",
+  "country": "CO",
+  "name": "Bogota#1",
+  "source": "vip_servers",
+  "load": 0,
+  "transports": [],
+  "handshake": false
+ },
+ {
+  "host": "89.44.197.99",
+  "country": "BG",
+  "name": "Sofia#1",
+  "source": "vip_servers",
+  "load": 1,
+  "transports": [],
+  "handshake": false
+ }
+]

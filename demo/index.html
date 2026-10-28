@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shuttle VPN → SOCKS5 代理池 Demo</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.55 ui-sans-serif,system-ui,"Segoe UI",sans-serif;
+         background:#0b0f14; color:#d7e2ea; }
+  header { padding:18px 24px; border-bottom:1px solid #1c2733; display:flex;
+           align-items:center; gap:14px; flex-wrap:wrap; }
+  h1 { font-size:17px; margin:0; font-weight:600; letter-spacing:.2px; }
+  .badge { font-size:12px; padding:2px 8px; border-radius:99px; background:#12222c;
+           border:1px solid #1f3543; color:#7fd8ff; }
+  main { padding:20px 24px 60px; max-width:1180px; }
+  button { background:#16232e; color:#cfe6f2; border:1px solid #24404f; border-radius:8px;
+           padding:7px 14px; cursor:pointer; font-size:13px; }
+  button:hover { background:#1d2f3d; }
+  button:disabled { opacity:.5; cursor:default; }
+  table { width:100%; border-collapse:collapse; margin-top:14px; font-size:13px; }
+  th,td { text-align:left; padding:8px 10px; border-bottom:1px solid #16202a; }
+  th { color:#7e93a3; font-weight:500; font-size:12px; text-transform:uppercase; letter-spacing:.4px; }
+  tr.ok td.exit { color:#5ee6a8; }
+  tr.bad td.exit { color:#ff7b7b; }
+  .mono { font-family: ui-monospace,SFMono-Regular,Menlo,monospace; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-top:16px; }
+  .card { background:#0f1720; border:1px solid #1b2833; border-radius:10px; padding:12px 14px; }
+  .card .k { color:#7e93a3; font-size:12px; }
+  .card .v { font-size:20px; font-weight:600; margin-top:2px; }
+  .muted { color:#7e93a3; }
+  pre { background:#0f1720; border:1px solid #1b2833; border-radius:10px; padding:12px;
+        overflow:auto; font-size:12px; max-height:340px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Shuttle VPN → SOCKS5 代理池</h1>
+  <span class="badge" id="cnt">loading…</span>
+  <span style="flex:1"></span>
+  <button id="btn-refresh">刷新探测</button>
+  <button id="btn-bench">压测整池</button>
+</header>
+<main>
+  <div class="grid">
+    <div class="card"><div class="k">端点总数</div><div class="v" id="s-total">-</div></div>
+    <div class="card"><div class="k">隧道可用</div><div class="v" id="s-alive">-</div></div>
+    <div class="card"><div class="k">P50 延迟</div><div class="v" id="s-p50">-</div></div>
+    <div class="card"><div class="k">成功率</div><div class="v" id="s-rate">-</div></div>
+  </div>
+  <table>
+    <thead><tr>
+      <th>#</th><th>节点</th><th>协议</th><th>国家</th><th>本地 SOCKS5</th>
+      <th>出口 IP</th><th>延迟</th><th>成功率</th><th>吞吐</th>
+    </tr></thead>
+    <tbody id="rows"><tr><td colspan="9" class="muted">加载中…</td></tr></tbody>
+  </table>
+  <p class="muted" style="margin-top:14px">
+    出口 IP 必须是节点 IP（≠ 本机 IP）才算隧道真正打通；仅 SOCKS 端口可连不算可用。
+  </p>
+  <pre id="out" hidden></pre>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+function fmt(v, unit='') { return v == null ? '—' : v + unit; }
+
+async function loadPool(force) {
+  const rows = $('#rows');
+  rows.innerHTML = '<tr><td colspan="9" class="muted">探测中…</td></tr>';
+  const data = await (await fetch('/api/pool' + (force ? '?force=1' : ''))).json();
+  if (!data.length) {
+    rows.innerHTML = '<tr><td colspan="9" class="muted">池未启动：先运行 tools/pool_layer.py up</td></tr>';
+    $('#cnt').textContent = '0 节点';
+    return;
+  }
+  $('#cnt').textContent = data.length + ' 节点';
+  let alive = 0, lat = [];
+  rows.innerHTML = data.map(s => {
+    const l = s.live || {};
+    const ok = (l.success_rate || 0) > 0;
+    if (ok) { alive++; if (l.p50_ms) lat.push(l.p50_ms); }
+    return `<tr class="${ok ? 'ok' : 'bad'}">
+      <td class="mono">${s.idx}</td>
+      <td class="mono">${s.host}:${s.port}</td>
+      <td>${s.proto}</td>
+      <td>${s.country || ''} ${s.name || ''}</td>
+      <td class="mono">${s.socks.replace('socks5://','')}</td>
+      <td class="exit mono">${fmt(l.exit_ip)}</td>
+      <td>${fmt(l.p50_ms, ' ms')}</td>
+      <td>${fmt(l.success_rate, '%')}</td>
+      <td>${fmt(l.mbps, ' Mbps')}</td>
+    </tr>`;
+  }).join('');
+  $('#s-total').textContent = data.length;
+  $('#s-alive').textContent = alive;
+  lat.sort((a,b)=>a-b);
+  $('#s-p50').textContent = lat.length ? lat[Math.floor(lat.length/2)] + ' ms' : '—';
+  $('#s-rate').textContent = Math.round(alive / data.length * 100) + '%';
+}
+
+async function runBench() {
+  const btn = $('#btn-bench');
+  btn.disabled = true; btn.textContent = '压测中…';
+  const out = $('#out'); out.hidden = false; out.textContent = 'running…';
+  try {
+    const r = await (await fetch('/api/bench?conc=4&rounds=3')).json();
+    out.textContent = JSON.stringify(r.summary, null, 1) + '\n\n' + JSON.stringify(r.results, null, 1);
+    loadPool(true);
+  } finally { btn.disabled = false; btn.textContent = '压测整池'; }
+}
+
+$('#btn-refresh').onclick = () => loadPool(true);
+$('#btn-bench').onclick = runBench;
+loadPool(false);
+setInterval(() => loadPool(false), 30000);
+</script>
+</body>
+</html>
