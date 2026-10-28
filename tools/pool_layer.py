@@ -88,8 +88,11 @@ def run_node(idx, node, cfg_path):
     sh(f"ip netns exec {ns} ip route add default via {hnet}")
     open(logf, "w").close()
 
+    # configs point at `creds/<host>.txt` relatively -> start openvpn from their parent dir
+    workdir = os.path.dirname(os.path.dirname(os.path.abspath(cfg_path)))
+    relcfg = f"cfg/{os.path.basename(cfg_path)}"
     subprocess.Popen(
-        f"ip netns exec {ns} openvpn --config {cfg_path} --dev tun0 --verb 3 --auth-nocache "
+        f"cd {workdir} && ip netns exec {ns} openvpn --config {relcfg} --dev tun0 --verb 3 --auth-nocache "
         f"--log {logf} --writepid /tmp/ovpn.{idx}.pid",
         shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
