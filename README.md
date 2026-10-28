@@ -10,6 +10,17 @@ new-api 代理池」的可跑流水线。
 
 ---
 
+## 给对接方（另一个会话）先看这个
+
+> **只想接 new-api？直接读 [`docs/HANDOFF.md`](docs/HANDOFF.md)（交接单，自包含）**
+> 或 [`docs/NEWAPI_INTEGRATION.md`](docs/NEWAPI_INTEGRATION.md) 第 0 节（6 步命令 + 三层验收）。
+> 六步速览：
+> `harvest.py`（离线拿 110 节点）→ `scan.sh`（测活，只留能握手的）→ 组 `nodes_alive.json`
+> → `pool_layer.py up`（每隧道一个 netns，端口 44000+i）→ `gen_newapi_pool.py`
+> → new-api 配 `TRYINGOPEN_PROXY_FILE`。**new-api 侧不用改一行代码。**
+
+---
+
 ## 状态
 
 | 环节 | 状态 | 证据 |
@@ -17,7 +28,7 @@ new-api 代理池」的可跑流水线。
 | 协议还原（API + 加密 + 目录结构） | ✅ 完成 | `docs/PROTOCOL.md` |
 | 加密层（DES + AES） | ✅ **100% 静态还原**（Unicorn 模拟 7 个 builder 拿到全部 key/IV），无需设备 | `docs/REVERSE_REPORT.md` §2.1、`tools/powercrypto.py` |
 | 目录抓取 | ✅ 线上 + 内置 双份 | 130 条节点 / 110 唯一 host |
-| 纯离线收割（无设备） | ✅ 端到端实测：线上目录 18+3、内置 48/42/19 → **110 唯一 host，密码与设备 oracle **110/110 逐条一致** | `tools/harvest.py`（默认离线模式） |
+| 纯离线收割（无设备） | ✅ 端到端实测：线上 18+3、内置 48/42/19 → **110 唯一 host**，密码与设备 oracle **110/110 逐条一致** | `tools/harvest.py`（默认离线模式） |
 | 每节点密码解密 | ✅ 110/110 | 32 字符 hex |
 | OpenVPN 握手测活 | ✅ 220 配置 → 10 存活 | 4.5% |
 | 真实隧道出口校验 | ✅ 4 端点数据面正常 | 出口 IP = 节点 IP |
@@ -65,7 +76,7 @@ python3 tools/harvest.py --assets <apk解包目录>/assets --out output
 
 # 2) 全量测活（只验握手，几分钟）
 bash tools/scan.sh 14 8 25 | tee output/scan.txt
-# -> 从 UP 行生成 output/nodes_alive.json（见 docs/REVERSE_REPORT.md §6）
+# -> 从 UP 行生成 output/nodes_alive.json（模板见 docs/NEWAPI_INTEGRATION.md 第 0 节 ③）
 
 # 3) 起 SOCKS5 池（每条隧道一个 netns）
 sudo python3 tools/pool_layer.py up output/nodes_alive.json --max 10
@@ -102,7 +113,8 @@ tun0 (OpenVPN, 服务端 push 0.0.0.0/1 + 128.0.0.0/1)
 ## 仓库结构
 
 ```
-docs/PROTOCOL.md            协议/加密/目录/最小实现手册（对接方先看这个）
+docs/HANDOFF.md             ★ 交接单：对接方照着敲就能跑，自包含
+docs/PROTOCOL.md            协议/加密/目录/最小实现手册
 docs/REVERSE_REPORT.md      完整逆向报告 + 踩坑 + 合规判定 + 验证日志
 docs/NEWAPI_INTEGRATION.md  new-api 代理池对接（容器网络三方案 + 三层验证）
 tools/powercrypto.py        ★ DES + AES 离线编解码（自校验）

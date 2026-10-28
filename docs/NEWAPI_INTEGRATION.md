@@ -1,5 +1,7 @@
 # new-api 对接指南 — Shuttle VPN 池
 
+> 只要「照着敲就能跑」的版本看 [`HANDOFF.md`](HANDOFF.md)；本文保留容器网络三方案、容量与三层验证的背景细节。
+
 目标：把 `pool_layer.py` 起的每一条隧道，当成 new-api 代理池里的一个普通 SOCKS5 出口。
 
 **new-api 侧不需要改任何业务代码。** `relay/channel/tryingopen/proxy_pool.go` 的
