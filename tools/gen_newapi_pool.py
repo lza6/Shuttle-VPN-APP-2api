@@ -24,6 +24,8 @@ def main():
     ap.add_argument("--out", default="-")
     args = ap.parse_args()
 
+    if not os.path.exists(args.state):
+        raise SystemExit(f"pool state not found: {args.state} (run `pool_layer.py up` first)")
     state = json.load(open(args.state))
     lines = ["# Shuttle VPN pool — generated %s" % __import__("datetime").datetime.now().isoformat(timespec="seconds"),
              "# one tunnel = one entry; keep this file in sync with pool_layer.py up"]
