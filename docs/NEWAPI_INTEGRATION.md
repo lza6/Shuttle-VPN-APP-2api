@@ -16,6 +16,52 @@
 
 ---
 
+## 0. 对接清单（照着敲，约 30 分钟）
+
+```bash
+# ① 拿凭证 + 生成每节点 ovpn（无需设备，纯 Python）
+pip install pycryptodome
+python3 tools/harvest.py --assets <apk解包>/assets --out output
+#   -> output/nodes.json(110 节点) + output/ovpn_template.ovpn + output/cfg/*.ovpn + output/creds/
+
+# ② 测活：只保留真正能握手的（几分钟，并发 14）
+bash tools/scan.sh 14 8 25 | tee output/scan.txt
+grep '^UP' output/scan.txt | awk '{print $2}'        # 形如 142.202.48.20_udp
+
+# ③ 组 nodes_alive.json（pool_layer 的输入；test 端口映射 udp->800 tcp->8080）
+cat > output/nodes_alive.json <<'JSON'
+[
+ {"host":"142.202.48.20","port":800,"proto":"udp","cfg":"output/cfg/142.202.48.20_udp.ovpn"},
+ {"host":"142.202.48.20","port":8080,"proto":"tcp","cfg":"output/cfg/142.202.48.20_tcp.ovpn"},
+ {"host":"162.251.62.100","port":800,"proto":"udp","cfg":"output/cfg/162.251.62.100_udp.ovpn"},
+ {"host":"162.251.62.100","port":8080,"proto":"tcp","cfg":"output/cfg/162.251.62.100_tcp.ovpn"}
+]
+JSON
+
+# ④ 起池（WSL/Linux root；每条隧道一个 netns，端口 44000+i）
+sudo python3 tools/pool_layer.py up output/nodes_alive.json --max 10
+sudo python3 tools/pool_layer.py status              # 每个条目都要有 exit.ip = 节点 IP
+
+# ⑤ 生成 new-api 的代理清单
+python3 tools/gen_newapi_pool.py --host 172.17.0.1 --out /opt/new-api/proxies/shuttle.txt
+
+# ⑥ 配环境变量并重启 new-api
+TRYINGOPEN_PROXY_FILE=/opt/new-api/proxies/shuttle.txt
+```
+
+验收三层（缺一层都不算通）：
+
+```bash
+ip netns exec vpn0 curl -s https://api.ipify.org                # 隧道层 = 节点 IP
+curl -x socks5h://127.0.0.1:44000 https://api.ipify.org         # 池层   = 节点 IP
+curl -s http://127.0.0.1:3000/api/twoapi/proxy_pool             # 池快照里有 residential 条目
+# 业务层：发一条真实 relay 请求，核对上游侧看到的来源 IP
+```
+
+> `--host` 怎么填见第 4 节（容器里的 `127.0.0.1` 不是宿主）。
+> `pool_layer.py` 必须**常驻**（前台跑或 systemd/supervisor），进程一停端口就没了。
+> 上游实测只有 2 个 host 数据面可用 → 最多 4 个出口；建议当补充出口而不是主力池。
+
 ## 1. 拓扑
 
 ```
