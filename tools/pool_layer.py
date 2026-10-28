@@ -91,13 +91,22 @@ def run_node(idx, node, cfg_path):
     # configs point at `creds/<host>.txt` relatively -> start openvpn from their parent dir
     workdir = os.path.dirname(os.path.dirname(os.path.abspath(cfg_path)))
     relcfg = f"cfg/{os.path.basename(cfg_path)}"
-    subprocess.Popen(
-        f"cd {workdir} && ip netns exec {ns} openvpn --config {relcfg} --dev tun0 --verb 3 --auth-nocache "
-        f"--log {logf} --writepid /tmp/ovpn.{idx}.pid",
-        shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    start = (f"cd {workdir} && ip netns exec {ns} openvpn --config {relcfg} --dev tun0 --verb 3 "
+             f"--auth-nocache --log {logf} --writepid /tmp/ovpn.{idx}.pid")
 
-    if not wait_handshake(logf):
-        log(f"[{idx}] FAIL handshake {host}:{port}/{proto}")
+    ok = False
+    for attempt in range(1, 4):
+        open(logf, "w").close()
+        subprocess.Popen(start, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        ok = wait_handshake(logf)
+        if ok:
+            break
+        # upstream throttles bursty clients: back off and retry instead of dropping the node
+        log(f"[{idx}] handshake attempt {attempt} failed {host}:{port}/{proto}, backing off")
+        sh(f"pkill -f 'ip netns exec {ns} openvpn' 2>/dev/null; sleep 1")
+        time.sleep(20)
+    if not ok:
+        log(f"[{idx}] FAIL handshake {host}:{port}/{proto} (3 attempts)")
         teardown(idx)
         return None
 

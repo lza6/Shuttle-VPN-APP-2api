@@ -242,9 +242,10 @@ def main():
     os.makedirs(cfgdir, exist_ok=True)
     tpl_body = template.replace("auth-user-pass", "auth-user-pass __CREDS__", 1)
     for n in nodes:
-        cred = os.path.abspath(os.path.join(creddir, n["host"] + ".txt"))
-        open(cred, "w", newline="\n").write(n["user"] + "\n" + n["pass"] + "\n")
-        tpl = tpl_body.replace("__CREDS__", cred.replace(os.sep, "/"))
+        open(os.path.join(creddir, n["host"] + ".txt"), "w", newline="\n").write(
+            n["user"] + "\n" + n["pass"] + "\n")
+        # relative on purpose: openvpn resolves it against its own CWD (see pool_layer.py)
+        tpl = tpl_body.replace("__CREDS__", "creds/" + n["host"] + ".txt")
         for proto, port in n["ports"].items():
             body = tpl.replace("client\n", f"client\nremote {n['host']} {port} {proto}\n", 1)
             open(os.path.join(cfgdir, f"{n['host']}_{proto}.ovpn"), "w", newline="\n").write(body)
