@@ -34,7 +34,7 @@ new-api 代理池」的可跑流水线。
 | 真实隧道出口校验 | ✅ 4 端点数据面正常 | 出口 IP = 节点 IP |
 | SOCKS5 池层（netns + microsocks + fail-closed） | ✅ 8 隧道常驻 | 端口 44000+i |
 | 本地压测 | ✅ 两轮 | 见下表 |
-| Demo 面板 | ✅ 实测通过（HTTP 200 + JSON） | `demo/server.py` :8961 |
+| Demo 面板 | ✅ 实测通过（HTTP 200 + JSON，`/api/pool` 返回出口 IP/延迟/吞吐） | `demo/server.py` :8977 |
 | new-api 对接 | ✅ 从 Windows 实测走通 SOCKS5 出口 | `docs/NEWAPI_INTEGRATION.md` |
 
 ## 实测数据
@@ -86,7 +86,7 @@ sudo python3 tools/pool_layer.py status
 python3 tools/bench.py --ports 44000-44009 --conc 8 --rounds 4
 
 # 5) 面板
-python3 demo/server.py 8961     # http://127.0.0.1:8961
+python3 demo/server.py 8977     # http://127.0.0.1:8977（端口自选，别撞其他会话的面板）
 
 # 6) 给 new-api 生成代理清单
 python3 tools/gen_newapi_pool.py --host 172.17.0.1 --out /opt/new-api/proxies/shuttle.txt
