@@ -15,8 +15,9 @@ new-api 代理池」的可跑流水线。
 | 环节 | 状态 | 证据 |
 |---|---|---|
 | 协议还原（API + 加密 + 目录结构） | ✅ 完成 | `docs/PROTOCOL.md` |
-| 加密层（DES 信封） | ✅ 通（走设备内 Java oracle） / ⏳ 纯静态 key 未还原 | `docs/REVERSE_REPORT.md` §2 |
+| 加密层（DES + AES） | ✅ **100% 静态还原**（Unicorn 模拟 7 个 builder 拿到全部 key/IV），无需设备 | `docs/REVERSE_REPORT.md` §2.1、`tools/powercrypto.py` |
 | 目录抓取 | ✅ 线上 + 内置 双份 | 130 条节点 / 110 唯一 host |
+| 纯离线收割（无设备） | ✅ 端到端实测：线上目录 18+3、内置 48/42/19 → **110 唯一 host，密码与设备 oracle **110/110 逐条一致** | `tools/harvest.py`（默认离线模式） |
 | 每节点密码解密 | ✅ 110/110 | 32 字符 hex |
 | OpenVPN 握手测活 | ✅ 220 配置 → 10 存活 | 4.5% |
 | 真实隧道出口校验 | ✅ 4 端点数据面正常 | 出口 IP = 节点 IP |
@@ -56,13 +57,10 @@ new-api 代理池」的可跑流水线。
 ## 快速开始
 
 ```bash
-# 0) 前置：root 模拟器/真机 + 已安装 APK + frida-server 16.x
-pip install frida==16.5.9
-adb root
-adb shell "setsid /data/local/tmp/fs1659 -l 0.0.0.0:27050 &"
-adb forward tcp:27050 tcp:27050
+# 0) 依赖（只需要网络；加密常量已内置）
+pip install pycryptodome            # 只有 --device 模式才需要 frida==16.5.9
 
-# 1) 抓目录 + 解密凭证 + 生成每节点 .ovpn
+# 1) 抓目录 + 解密凭证 + 生成每节点 .ovpn（不需要任何设备！）
 python3 tools/harvest.py --assets <apk解包目录>/assets --out output
 
 # 2) 全量测活（只验握手，几分钟）
@@ -107,8 +105,10 @@ tun0 (OpenVPN, 服务端 push 0.0.0.0/1 + 128.0.0.0/1)
 docs/PROTOCOL.md            协议/加密/目录/最小实现手册（对接方先看这个）
 docs/REVERSE_REPORT.md      完整逆向报告 + 踩坑 + 合规判定 + 验证日志
 docs/NEWAPI_INTEGRATION.md  new-api 代理池对接（容器网络三方案 + 三层验证）
-tools/rpc_bridge.js         Frida RPC：把 App 的 DES 加解密暴露给宿主
-tools/harvest.py            抓目录 + 解密 enpass + 生成每节点 ovpn（需设备）
+tools/powercrypto.py        ★ DES + AES 离线编解码（自校验）
+tools/emu.py                Unicorn 模拟器：跑 .so 里的混淆 builder 提取常量
+tools/rpc_bridge.js         Frida RPC 兜底（App 若换加密层时用）
+tools/harvest.py            抓目录 + 解密 enpass + 生成每节点 ovpn（默认离线）
 tools/scan.sh               OpenVPN 握手测活（并行）
 tools/pool_layer.py         netns + microsocks + fail-closed 的 SOCKS5 池层
 tools/bench.py              SOCKS5 压测（延迟/成功率/吞吐/出口 IP）
@@ -121,7 +121,7 @@ samples/nodes.public.json   脱敏节点快照（110 条，含握手存活标记
 
 ## 路线图
 
-- [ ] 纯静态还原 DES key/IV 派生（`sub_10010 / sub_ffa0 / sub_ff30` 三函数与 `.rodata` 错位 ASCII 反混淆）→ 去掉「必须有设备」这个前提
+- [x] ~~纯静态还原 DES/AES key+IV~~ 已完成（Unicorn 模拟，见 `docs/REVERSE_REPORT.md` §2.1）→ 收割不再依赖设备
 - [ ] 把 scan/隧道健康检查做成守护进程（双阈值摘除 + 自动重连）
 - [ ] 上游 `protocol2`（DProxy/DXProxy/DSProxy/TCP/UDP 通道）与 `nut_port` 的还原（本版本走的是 OpenVPN，其他通道未启用）
 - [ ] IKEv2（strongswan）通道还原
@@ -131,7 +131,7 @@ samples/nodes.public.json   脱敏节点快照（110 条，含握手存活标记
 ```
 GET {base}/superwg.php?v=urlencode( base64_nopad( DES_CBC_PKCS5("m=init" + query) ) )
 base ∈ api.fastcloud.me | api.pm-img.com | api.itranslator.info | api.supershell.me | 193.108.117.109 | 193.108.118.25
-key/IV = native 从 (包名 com.supervpn.vpn.free.proxy, magic 0x3f051fcc) 派生
+key/IV = 编译期常量（DES key 20190826 / IV 00514321；AES key 2019082620190826 / IV 0051432100514321）
 完整性校验: signatures[0].hashCode() == 1057427404
 节点: {host, enpass(加密密码), load, ...}   密文解密后 user=superike / pass=enpass明文
 连接: OpenVPN, remote <host> 800 udp 或 <host> 8080 tcp, tls-crypt + ca 模板在 assets/privacy_policy.txt(加密)

@@ -1,0 +1,7 @@
+pycryptodome>=3.20
+# only for tools/emu.py (re-deriving constants from libpowervpn.so)
+capstone>=5.0
+pyelftools>=0.31
+unicorn>=2.0
+# only for --device mode (frida 17 dropped the builtin Java bridge)
+# frida==16.5.9

@@ -1,5 +1,6 @@
 # runtime products — never commit credentials
 output/
+output*/
 *.ovpn
 creds/
 cfg/

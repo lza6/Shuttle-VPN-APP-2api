@@ -55,10 +55,35 @@ android/util/Base64.encodeToString([B,int)
 `magic` 同时是 **签名完整性闸门**：`signatures[0].hashCode()` 必须等于 1057427404，
 否则 native 直接返回 null。这就是 mod 版必须带 `ApkSignatureKillerEx` + 包名/签名伪装的原因。
 
-**尚未完成的部分**：三个派生函数的字符串变换算法（key 不是 `.rodata` 里的字面串，
-是变换结果）。本仓库因此走「设备内 Java 层 oracle」路线（`tools/harvest.py`）。
-纯静态 key 提取留作后续工作 —— 难点在于三个函数是 PLT 间接调用 +
-`.rodata` 里是一堆错位 ASCII（如 `,4$8'9-6:.6$1#?*XhHpSeA~NrZlE`），需要单独做一次反混淆。
+### 2.1 常量全部跑出来（Unicorn 模拟，2026-10-29 收口）
+
+三个派生函数每个 ~9.8 KB，反汇编里是**垃圾算术 + 跳转表逐字节 `strb`**，
+硬读无解。改用 **Unicorn Engine 直接执行**它们：map 全部 alloc 段 → `bl <PLT桩>` 时
+用 GOT 槽反查符号 → 本库内部符号跳到 `st_value` 继续跑、外部符号（malloc/memcpy/
+strlen/isalnum/strcmp）用假实现并把 `PC` 设回 `LR` → 从 `x8`（sret，libc++ `std::string`）
+读结果。7 个 builder 一次全出：
+
+| builder | 返回 | 用途 |
+|---|---|---|
+| `0x11b20c` | `20190826` | DES key |
+| `0x11d874` | `00514321` | DES IV |
+| `0x11fec0` | `m=init` | 请求明文前缀 |
+| `0x1224f0` | `m=ads` | 广告配置前缀 |
+| `0x118038` | `vpntunnelsuper20` | 另一套 16 字节密钥（未用） |
+| `0x13f5c` | `2019082620190826` | AES-128 key（`enpass` + ovpn 模板） |
+| `0x17048` | `0051432100514321` | AES-CBC IV |
+
+即 **key/IV 与包名无关、是编译期常量**，AES 那套就是 DES 那套复制两份 / 换位。
+至此加解密 100% 静态可控，**抓目录/解凭证不再需要任何设备**。
+
+两个入口的分工也是这一步才看清的：
+- `d()` / `f()`（JNI thunk）→ 走 **JVM DES**（`Cipher.getInstance("DES/CBC/PKCS5Padding")`）
+- `b()` → 走 **libpowervpn.so 自己的 AES**（`AES::MakeKey` 调用点 `0xd0e80`，
+  key/iv 来自 `bl 0x13f5c` / `bl 0x17048`）→ 所以只在 JVM 层 hook 永远拿不到 `enpass` 的钥匙。
+
+模拟器的三个坑：`tpidr_el0` 必须指向合法 TLS（`[tp+0x28]` 被当 canary 读）；
+PLT 槽要靠 `.rela.plt` 的 `r_offset` 反查（按序号猜会整体错一位）；
+libc++ 短字符串（`hdr[0]&1`）与长字符串两种布局都要解析。
 
 ## 3. 动态验证（Frida）
 
@@ -117,6 +142,17 @@ base64 密文，与缓存的 `lic.txt` 逐字节一致 → **服务端不按 uui
 
 > 重要：**握手成功 ≠ 可用**。只看 `Initialization Sequence Completed` 会把 4 个死节点算成
 > 活的，必须做出口 IP 校验（本项目用 `https://api.ipify.org`，直连 IP 与出口 IP 必须不同）。
+
+## 4.1 离线复现验证（无设备）
+
+```
+python3 tools/powercrypto.py                       -> self-check ok (DES + AES, 双向)
+纯 Python 构造 URL → curl -> HTTP 200, 122520 B    -> pc.des_decrypt -> 18 servers + 3 vip
+pc.aes_decrypt(enpass)                             -> 8ec75f7d8ec02407d5c022e676fa1841
+离线解 enpass 全量                                  -> 110/110 与设备 oracle 完全一致
+离线解 assets/usage_policy.txt                     -> 与设备解出的 165047 B 逐字节相同
+离线解 assets/privacy_policy.txt                   -> 1724 B OpenVPN 模板
+```
 
 ## 5. 合规判定
 
